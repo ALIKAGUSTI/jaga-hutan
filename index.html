@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hutan Kita Menangis | Save Our Forest</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --green: #65e69a; --orange: #ff8757; --dark: #080d0a; --muted: #a7b4aa; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'Poppins', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; overflow-x: hidden; position: relative; }
+body::before { content: ""; position: fixed; width: 500px; height: 500px; top: -220px; left: -180px; background: #14532d; filter: blur(150px); opacity:.25; pointer-events: none; }
+.container { width: min(1100px, 92%); margin: auto; position: relative; z-index: 1; }
+header { padding: 24px 0; }
+nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; }
+.logo span { color: var(--green); }
+.logo-icon { font-size: 28px; }
+.nav-label { color: var(--muted); font-size: 12px; letter-spacing: 2px; text-align: right; }
+.hero { text-align: center; padding: 38px 0 28px; }
+.badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #284b35; background: #102319; color: var(--green); border-radius: 50px; padding: 8px 15px; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 22px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green); }
+h1 { font-size: clamp(34px, 6vw, 64px); line-height: 1.12; letter-spacing: -2px; font-weight: 800; }
+h1 span { color: var(--green); }
+.hero p { color: var(--muted); max-width: 580px; margin: 18px auto 0; font-size: 14px; line-height: 1.9; }
+.animation-card { max-width: 700px; width: 100%; margin: 34px auto 0; background: #101812; border: 1px solid #293a2e; border-radius: 24px; padding: 12px; box-shadow: 0 25px 80px #0008; }
+.canvas-wrap { position: relative; overflow: hidden; border-radius: 16px; background: #101812; width: 100%; aspect-ratio: 700 / 650; }
+canvas { display: block; width: 100%!important; height: 100%!important; }
+.scene-tag { position: absolute; top: 12px; left: 12px; z-index: 10; display: flex; align-items: center; gap: 8px; background: #07100dcc; border: 1px solid #ffffff20; backdrop-filter: blur(10px); padding: 9px 13px; border-radius: 50px; font-size: 11px; }
+.scene-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+.scene-tag.burning.scene-dot { background: var(--orange); box-shadow: 0 0 10px var(--orange); }
+.progress-track { height: 4px; background: #27332a; border-radius: 10px; overflow: hidden; margin-top: 12px; }
+.progress { height: 100%; width: 0; background: linear-gradient(90deg, #22c55e, #ff8757); transition: width.1s linear; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 4px 4px; }
+.scene-info { font-size: 12px; color: var(--muted); }
+.scene-info strong { display: block; color: white; font-size: 14px; margin-bottom: 3px; }
+.buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+button { border: none; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 12px 16px; border-radius: 10px; transition: transform.2s, background.2s; }
+button:hover { transform: translateY(-2px); }
+.btn-green { background: var(--green); color: #08120b; }
+.btn-dark { background: #202a22; color: white; border: 1px solid #344438; }
+.impact { padding: 75px 0 35px; }
+.section-label { color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-align: center; margin-bottom: 12px; }
+.impact h2 { text-align: center; font-size: clamp(25px, 4vw, 38px); line-height: 1.3; }
+.impact-desc { color: var(--muted); text-align: center; max-width: 540px; margin: 14px auto 32px; font-size: 13px; line-height: 1.8; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.card { background: linear-gradient(145deg, #17251a, #0e1510); border: 1px solid #283b2d; border-radius: 18px; padding: 24px; }
+.card-icon { font-size: 29px; margin-bottom: 18px; }
+.card h3 { font-size: 15px; margin-bottom: 9px; }
+.card p { color: var(--muted); font-size: 12px; line-height: 1.8; }
+.cta { margin: 50px 0 65px; border: 1px solid #36573c; border-radius: 24px; padding: 38px 25px; text-align: center; background: radial-gradient(ellipse at top, #1b492a 0%, transparent 65%), #101812; }
+.cta p { max-width: 500px; color: var(--muted); margin: 0 auto 23px; font-size: 13px; line-height: 1.9; }
+footer { border-top: 1px solid #263129; padding: 22px 0; text-align: center; color: #849187; font-size: 11px; }
+footer span { color: var(--green); }
+@media (max-width: 768px) {
+ .animation-card { padding: 7px; border-radius: 16px; }
+ .scene-tag { top: 8px; left: 8px; font-size: 9px; padding: 6px 10px; }
+ .controls { flex-direction: column; align-items: stretch; }
+ .buttons { width: 100%; }.buttons button { flex: 1; }
+ .cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header><nav><div class="logo"><div class="logo-icon">🌿</div><div>GREEN<span>EARTH.</span></div></div><div class="nav-label">SAVE NATURE · SAVE LIFE</div></nav></header>
+<main>
+<section class="hero"><div class="badge"><span class="dot"></span>SUARA UNTUK ALAM</div><h1>Hutan Kita<br><span>Menangis.</span></h1><p>Rumah bagi jutaan kehidupan sedang terancam. Ketika hutan terbakar, bukan hanya pohon yang hilang, tetapi juga rumah, kehidupan, dan masa depan kita.</p></section>
+<section class="animation-card"><div class="canvas-wrap"><canvas id="forest" width="700" height="650"></canvas><div class="scene-tag" id="sceneTag"><span class="scene-dot"></span><span id="sceneLabel">HUTAN YANG DAMAI</span></div></div><div class="progress-track"><div class="progress" id="progress"></div></div><div class="controls"><div class="scene-info"><strong id="sceneTitle">Semuanya dimulai dari sini.</strong><span id="sceneDesc">Hutan adalah rumah bagi kehidupan.</span></div><div class="buttons"><button class="btn-dark" id="pauseBtn">Ⅱ Jeda</button><button class="btn-green" id="replayBtn">↻ Ulangi</button></div></div></section>
+<section class="impact"><div class="section-label">APA YANG DIPERTARUHKAN?</div><h2>Satu Hutan.<br>Banyak Kehidupan.</h2><p class="impact-desc">Kebakaran hutan dan lahan membawa dampak yang jauh melampaui apa yang terlihat oleh mata.</p><div class="cards"><article class="card"><div class="card-icon">🌳</div><h3>Hilangnya Ekosistem</h3><p>Pohon dan tumbuhan yang terbakar membutuhkan waktu untuk tumbuh kembali.</p></article><article class="card"><div class="card-icon">🐾</div><h3>Satwa Kehilangan Rumah</h3><p>Banyak satwa kehilangan tempat tinggal, sumber makanan, dan ruang aman.</p></article><article class="card"><div class="card-icon">🌫️</div><h3>Udara Tercemar</h3><p>Asap kebakaran menurunkan kualitas udara dan membahayakan kesehatan.</p></article></div></section>
+<section class="cta"><div style="font-size:40px;margin-bottom:12px">🌱</div><h2>Jangan Tunggu Jadi Abu.</h2><p>Lindungi hutan mulai dari tindakan kecil. Jangan membakar lahan, jaga lingkungan, dan sebarkan kepedulian.</p><div class="buttons" style="justify-content:center"><button class="btn-green" id="careBtn">🌱 Aku Peduli Hutan</button><button class="btn-dark" id="shareBtn">↗ Sebarkan Pesan</button></div></section>
+</main>
+<footer>Dibuat dengan <span>♥</span> untuk bumi kita.<br><span>Hutan lestari, masa depan berarti.</span></footer>
+</div>
+
+<script>
+const canvas = document.getElementById("forest");
+const ctx = canvas.getContext("2d");
+const progress = document.getElementById("progress");
+const sceneTag = document.getElementById("sceneTag");
+const sceneLabel = document.getElementById("sceneLabel");
+const sceneTitle = document.getElementById("sceneTitle");
+const sceneDesc = document.getElementById("sceneDesc");
+const pauseBtn = document.getElementById("pauseBtn");
+const W = canvas.width; const H = canvas.height;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let time = 0; let paused = false; let animationId = null; let trees = []; let animals = []; let particles = []; let lastScene = -1;
+const scenes = [
+  {label:"HUTAN YANG DAMAI",title:"Semuanya dimulai dari sini.",desc:"Hutan adalah rumah bagi kehidupan."},
+  {label:"API MULAI MENYEBAR",title:"Satu percikan dapat mengubah segalanya.",desc:"Api merambat, asap mulai menyelimuti langit."},
+  {label:"HUTAN DALAM BAHAYA",title:"Ketika hutan terbakar, kehidupan terancam.",desc:"Satwa kehilangan tempat tinggalnya."},
+  {label:"MASIH ADA HARAPAN",title:"Bumi masih punya kesempatan.",desc:"Perubahan dimulai dari kepedulian kita."}
+];
+function makeTrees(){trees=[];for(let i=0;i<15;i++){trees.push({x:10+i*49+Math.random()*20,y:365+Math.random()*100,size:45+Math.random()*45,layer:Math.random(),burn:0,seed:Math.random()*10});}animals=[{x:235,y:480,type:"🦌",speed:0.8},{x:335,y:490,type:"🐒",speed:1.0},{x:430,y:470,type:"🐇",speed:1.2}];particles=[];}
+function drawSky(phase){const sky=ctx.createLinearGradient(0,0,0,H*0.8);if(phase===0){sky.addColorStop(0,"#071d28");sky.addColorStop(0.55,"#146b62");sky.addColorStop(1,"#91cba1");}else if(phase===1){sky.addColorStop(0,"#28191d");sky.addColorStop(0.55,"#a64a2b");sky.addColorStop(1,"#ed9a4a");}else if(phase===2){sky.addColorStop(0,"#111518");sky.addColorStop(0.65,"#49342e");sky.addColorStop(1,"#74604b");}else{sky.addColorStop(0,"#092b29");sky.addColorStop(0.65,"#17654a");sky.addColorStop(1,"#8cbd73");}ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);}
+function drawSun(phase){ctx.save();ctx.globalAlpha=phase===2?0.15:0.75;ctx.fillStyle=phase===1?"#ffab59":"#d7f9b3";ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=50;ctx.beginPath();ctx.arc(550,140,35,0,Math.PI*2);ctx.fill();ctx.restore();}
+function drawGround(phase){const ground=ctx.createLinearGradient(0,410,0,H);if(phase===0||phase===3){ground.addColorStop(0,phase===3?"#3c7c40":"#28734a");ground.addColorStop(1,"#102b1c");}else{ground.addColorStop(0,phase===1?"#65402a":"#39302b");ground.addColorStop(1,"#111312");}ctx.fillStyle=ground;ctx.fillRect(0,410,W,H-410);}
+function drawTree(tree,phase){ctx.save();ctx.translate(tree.x,tree.y);const trunkColor=tree.burn>0.6||phase===2?"#29211b":"#543a27";ctx.fillStyle=trunkColor;ctx.fillRect(-5,0,10,tree.size*0.7);if(tree.burn<1){const leafColor=phase>=1||tree.burn>0?`rgb(${Math.floor(30+tree.burn*210)},${Math.floor(115-tree.burn*100)},48)`:phase===3?"#3aa66a":tree.layer>0.5?"#167448":"#218653";ctx.fillStyle=leafColor;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(0,-tree.size*0.8+i*tree.size*0.19);ctx.lineTo(-tree.size*(0.43-i*0.06),-tree.size*0.2+i*tree.size*0.16);ctx.lineTo(tree.size*(0.43-i*0.06),-tree.size*0.2+i*tree.size*0.16);ctx.closePath();ctx.fill();}if((phase===1||phase===2)&&Math.sin(time*0.08+tree.seed)>0.1){ctx.fillStyle="#ff9d36";ctx.beginPath();ctx.moveTo(0,-tree.size*0.6);ctx.lineTo(-7,-tree.size*0.05);ctx.lineTo(8,-tree.size*0.1);ctx.closePath();ctx.fill();}}else{ctx.fillStyle="#181816";ctx.fillRect(-3,-tree.size*0.4,6,tree.size*0.4);}ctx.restore();}
+function spawnParticle(x,y,type){particles.push({x,y,vx:(Math.random()-0.5)*(type==="smoke"?0.8:1.5),vy:type==="smoke"?-(0.5+Math.random()):-(1+Math.random()*2),life:1,size:type==="smoke"?8+Math.random()*15:2+Math.random()*4,type});if(particles.length>220)particles.shift();}
+function drawParticles(phase){if(phase===1||phase===2){if(Math.random()<0.65){const tree=trees[Math.floor(Math.random()*trees.length)];spawnParticle(tree.x,tree.y-tree.size*0.5,Math.random()<0.65?"smoke":"ember");}}if(phase===3&&Math.random()<0.08){spawnParticle(80+Math.random()*540,530,"leaf");}particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life-=p.type==="smoke"?0.003:0.012;ctx.save();ctx.globalAlpha=Math.max(0,p.life);if(p.type==="smoke"){ctx.fillStyle="#9c9488";ctx.beginPath();ctx.arc(p.x,p.y,p.size*(1.4-p.life*0.4),0,Math.PI*2);ctx.fill();}else if(p.type==="ember"){ctx.fillStyle="#ff9b44";ctx.shadowColor="#ff652b";ctx.shadowBlur=12;ctx.fillRect(p.x,p.y,p.size,p.size);}else{ctx.fillStyle="#9be69b";ctx.beginPath();ctx.ellipse(p.x,p.y,p.size,p.size*0.45,0.6,0,Math.PI*2);ctx.fill();}ctx.restore();});particles=particles.filter(p=>p.life>0);}
+function drawAnimals(phase){animals.forEach((a,i)=>{if(phase===1||phase===2){a.x-=a.speed;}if(a.x<-30)a.x=W+20;ctx.font="30px serif";ctx.textAlign="center";ctx.fillText(a.type,a.x,a.y+Math.sin(time*0.08+i)*3);if(phase===2){ctx.fillStyle="#fff";ctx.font="11px Poppins";ctx.fillText("Tolong...",a.x,a.y-23);}});}
+function drawSeedling(){const growth=Math.min(1,Math.max(0,(time-670)/160));ctx.save();ctx.translate(350,535);ctx.scale(growth,growth);ctx.strokeStyle="#9ceca2";ctx.lineWidth=5;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-2,-25,0,-55);ctx.stroke();ctx.fillStyle="#57dc7d";ctx.beginPath();ctx.ellipse(-15,-40,17,8,-0.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(15,-53,17,8,0.5,0,Math.PI*2);ctx.fill();ctx.restore();}
+function updateScene(phase){if(phase===lastScene)return;lastScene=phase;sceneLabel.textContent=scenes[phase].label;sceneTitle.textContent=scenes[phase].title;sceneDesc.textContent=scenes[phase].desc;sceneTag.classList.toggle("burning",phase===1||phase===2);}
+
+function draw(){
+  const phase=time<180?0:time<390?1:time<650?2:3;
+  updateScene(phase);
+  drawSky(phase); drawSun(phase); drawGround(phase);
+  trees.forEach((tree,i)=>{
+    if(phase===1&&time>220+i*7){tree.burn=Math.min(1,tree.burn+0.0025);}
+    if(phase===2){tree.burn=Math.min(1,tree.burn+0.0015);}
+    if(phase===3){tree.burn=Math.max(0,tree.burn-0.001);}
+    drawTree(tree,phase);
+  });
+  drawParticles(phase);
+  if(phase!==3){drawAnimals(phase);}else{drawSeedling();}
+  const shade=ctx.createLinearGradient(0,440,0,H); shade.addColorStop(0,"rgba(0,0,0,0)"); shade.addColorStop(1,"rgba(0,0,0,0.3)"); ctx.fillStyle=shade; ctx.fillRect(0,440,W,H-440);
+
+  // === FIX ANTI NABRAK ===
+  const messages=["HUTAN ADALAH RUMAH KITA","JANGAN BIARKAN API MENYEBAR","JANGAN TUNGGU JADI ABU","MASIH ADA HARAPAN 🌱"];
+  const msgY = 130; // turunin jauh dari 75 ke 130 biar gak nabrak badge
+  ctx.textAlign="center";
+  ctx.font="700 17px Poppins";
+  // background pill biar selalu kebaca
+  let textW = ctx.measureText(messages[phase]).width;
+  ctx.fillStyle="rgba(0,0,0,0.65)";
+  ctx.beginPath();
+  ctx.roundRect(W/2 - textW/2 - 16, msgY-22, textW+32, 30, 20);
+  ctx.fill();
+  ctx.fillStyle = phase===3? "#65e69a" : "#ffffff";
+  ctx.fillText(messages[phase], W/2, msgY);
+
+  progress.style.width=(time/850*100)+"%";
+  time++;
+  if(time>850){time=0;trees.forEach(t=>t.burn=0);animals.forEach((a,i)=>{a.x=235+i*100;});particles=[];}
+  if(!paused){animationId=requestAnimationFrame(draw);}
+}
+function startAnimation(){cancelAnimationFrame(animationId);paused=false;pauseBtn.textContent="Ⅱ Jeda";draw();}
+pauseBtn.addEventListener("click",()=>{paused=!paused;if(paused){cancelAnimationFrame(animationId);pauseBtn.textContent="▶ Lanjut";}else{pauseBtn.textContent="Ⅱ Jeda";animationId=requestAnimationFrame(draw);}});
+document.getElementById("replayBtn").addEventListener("click",()=>{time=0;lastScene=-1;makeTrees();startAnimation();});
+document.getElementById("careBtn").addEventListener("click",()=>{alert("Terima kasih sudah peduli! 🌱\n\n• Jangan membakar lahan.\n• Laporkan kebakaran kepada petugas.\n• Jaga pohon dan lingkungan sekitar.");});
+document.getElementById("shareBtn").addEventListener("click",()=>{const msg="🌳 HUTAN KITA MENANGIS\n\nKetika hutan terbakar, satwa kehilangan rumah dan kualitas udara terancam.\n\nJangan tunggu jadi abu baru peduli. Mari jaga hutan bersama! 🌱\n\n#JagaHutan #StopKarhutla";window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");});
+makeTrees();
+if(reducedMotion){time=0;drawSky(0);drawGround(0);trees.forEach(t=>drawTree(t,0));drawAnimals(0);updateScene(0);}else{startAnimation();}
+</script>
+</body>
+</html>
